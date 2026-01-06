@@ -12,8 +12,8 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 
-from src.data import load_dataframe
-from src.preprocess import build_preprocess_pipeline
+from data import load_dataframe
+from preprocess import build_preprocess_pipeline
 
 ARTIFACTS_DIR = Path(__file__).resolve().parent.parent / 'artifacts'
 ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)

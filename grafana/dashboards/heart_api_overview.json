@@ -1,0 +1,47 @@
+
+{
+  "id": null,
+  "uid": "heart-api-overview",
+  "title": "Heart API Overview",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Requests rate by endpoint (req/s)",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        { "refId": "A", "expr": "sum by (endpoint) (rate(api_requests_total[5m]))" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Latency p95 (seconds)",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        { "refId": "A", "expr": "histogram_quantile(0.95, sum by (le) (rate(api_request_latency_seconds_bucket[5m])))" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Correct vs Incorrect (last 5m)",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false } },
+      "targets": [
+        { "refId": "A", "expr": "sum(rate(prediction_correct_total[5m]))" },
+        { "refId": "B", "expr": "sum(rate(prediction_incorrect_total[5m]))" }
+      ]
+    },
+    {
+      "type": "gauge",
+      "title": "Accuracy (correct / total, 5m)",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false } },
+      "targets": [
+        { "refId": "A", "expr": "sum(rate(prediction_correct_total[5m])) / (sum(rate(prediction_correct_total[5m])) + sum(rate(prediction_incorrect_total[5m])))" }
+      ]
+    }
+  ]
+}
